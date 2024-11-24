@@ -17,28 +17,23 @@ const register_user = async (req, res) => {
     }
     const user = await user_model_1.default.create({ username, email, password });
     if (user) {
-        return res.status(201).json({
-            _id: user._id,
-            username: user.username,
-            email: user.email,
-        });
+        return res
+            .status(201)
+            .json({ message: "registration successfully", data: user });
     }
     else {
         return res.status(400).json({ message: "Invalid user data" });
     }
 };
 exports.register_user = register_user;
-// Login user function
 const login_user = async (req, res) => {
     const { email, password } = req.body;
     const user = await user_model_1.default.findOne({ email });
     if (user && (await user.matchPassword(password))) {
-        return res.json({
-            _id: user._id,
-            username: user.username,
-            email: user.email,
-            token: (0, generate_token_1.default)(user._id),
-        });
+        const token = (0, generate_token_1.default)(user._id);
+        return res
+            .status(201)
+            .json({ message: "Login successfully", data: { user, token } });
     }
     else {
         return res.status(401).json({ message: "Invalid email or password" });

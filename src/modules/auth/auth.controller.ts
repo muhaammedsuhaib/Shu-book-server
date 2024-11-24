@@ -19,17 +19,14 @@ export const register_user = async (
 
   const user = await User.create({ username, email, password });
   if (user) {
-    return res.status(201).json({
-      _id: user._id,
-      username: user.username,
-      email: user.email,
-    });
+    return res
+      .status(201)
+      .json({ message: "registration successfully", data: user });
   } else {
     return res.status(400).json({ message: "Invalid user data" });
   }
 };
 
-// Login user function
 export const login_user = async (
   req: Request,
   res: Response
@@ -39,12 +36,10 @@ export const login_user = async (
   const user = await User.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
-    return res.json({
-      _id: user._id,
-      username: user.username,
-      email: user.email,
-      token: generate_token(user._id),
-    });
+    const token = generate_token(user._id);
+    return res
+      .status(201)
+      .json({ message: "Login successfully", data: { user, token } });
   } else {
     return res.status(401).json({ message: "Invalid email or password" });
   }
