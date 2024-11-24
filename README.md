@@ -103,7 +103,7 @@ The goal of this project is to create a fully functional task management applica
 ### Prerequisites:
 - Node.js
 - MongoDB
-- npm/yarn
+- npm
 
 ### Steps:
 
