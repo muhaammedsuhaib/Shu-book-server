@@ -2,7 +2,7 @@ import express from "express";
 import try_catch from "../../middlewares/try_catch";
 import { login_user, register_user } from "./auth.controller";
 import validate from "../../middlewares/validate";
-import { auth_login_schema, auth_register_schema } from "./auth.schemas";
+import { auth_login_schema, auth_register_schema } from "./auth.schema";
 
 const router = express.Router();
 

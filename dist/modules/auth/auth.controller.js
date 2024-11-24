@@ -1,42 +1,65 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.login_user = exports.register_user = void 0;
-const user_model_1 = __importDefault(require("../user/user.model"));
-const generate_token_1 = __importDefault(require("../../utils/generate_token"));
+const authService = __importStar(require("./auth.service"));
 const register_user = async (req, res) => {
     const { username, email, password } = req.body;
-    if (!username || !email || !password) {
-        return res.status(400).json({ message: "All fields are required" });
-    }
-    const userExists = await user_model_1.default.findOne({ email });
-    if (userExists) {
-        return res.status(400).json({ message: "User already exists" });
-    }
-    const user = await user_model_1.default.create({ username, email, password });
-    if (user) {
+    try {
+        const user = await authService.register_user(username, email, password);
         return res
             .status(201)
-            .json({ message: "registration successfully", data: user });
+            .json({ message: "Registration successful", data: user });
     }
-    else {
-        return res.status(400).json({ message: "Invalid user data" });
+    catch (error) {
+        const message = error instanceof Error ? error.message : "An unknown error occurred";
+        return res.status(400).json({ message });
     }
 };
 exports.register_user = register_user;
 const login_user = async (req, res) => {
     const { email, password } = req.body;
-    const user = await user_model_1.default.findOne({ email });
-    if (user && (await user.matchPassword(password))) {
-        const token = (0, generate_token_1.default)(user._id);
+    try {
+        const { user, token } = await authService.login_user(email, password);
         return res
-            .status(201)
-            .json({ message: "Login successfully", data: { user, token } });
+            .status(200)
+            .json({ message: "Login successful", data: { user, token } });
     }
-    else {
-        return res.status(401).json({ message: "Invalid email or password" });
+    catch (error) {
+        const message = error instanceof Error ? error.message : "An unknown error occurred";
+        return res.status(400).json({ message });
     }
 };
 exports.login_user = login_user;

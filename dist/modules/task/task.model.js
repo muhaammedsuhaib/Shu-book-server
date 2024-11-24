@@ -9,11 +9,11 @@ const taskSchema = new mongoose_1.default.Schema({
     description: { type: String },
     status: {
         type: String,
-        enum: ['To Do', 'In Progress', 'Completed'],
-        default: 'To Do',
+        enum: ["To Do", "In Progress", "Completed"],
+        default: "To Do",
     },
     dueDate: { type: Date, required: true },
-    user: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'User', required: true },
+    user: { type: mongoose_1.default.Schema.Types.ObjectId, ref: "User", required: true },
 }, { timestamps: true });
-const Task = mongoose_1.default.model('Task', taskSchema);
+const Task = mongoose_1.default.model("Task", taskSchema);
 exports.default = Task;

@@ -1,5 +1,5 @@
-import mongoose, {  Schema, Model } from 'mongoose';
-import { ITask } from './types';
+import mongoose, { Schema, Model } from "mongoose";
+import { ITask } from "./types";
 
 const taskSchema: Schema<ITask> = new mongoose.Schema(
   {
@@ -7,15 +7,15 @@ const taskSchema: Schema<ITask> = new mongoose.Schema(
     description: { type: String },
     status: {
       type: String,
-      enum: ['To Do', 'In Progress', 'Completed'],
-      default: 'To Do',
+      enum: ["To Do", "In Progress", "Completed"],
+      default: "To Do",
     },
     dueDate: { type: Date, required: true },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   },
   { timestamps: true }
 );
 
-const Task: Model<ITask> = mongoose.model<ITask>('Task', taskSchema);
+const Task: Model<ITask> = mongoose.model<ITask>("Task", taskSchema);
 
 export default Task;

@@ -7,7 +7,12 @@ exports.create_task = exports.get_tasks = void 0;
 const task_model_1 = __importDefault(require("./task.model"));
 const get_tasks = async (req, res) => {
     const tasks = await task_model_1.default.find({ user: req.user?._id });
-    return res.json(tasks);
+    if (!tasks) {
+        return res.status(404).json({ message: "Task not found" });
+    }
+    return res
+        .status(200)
+        .json({ message: "Tasks retrived successfully", date: tasks });
 };
 exports.get_tasks = get_tasks;
 const create_task = async (req, res) => {

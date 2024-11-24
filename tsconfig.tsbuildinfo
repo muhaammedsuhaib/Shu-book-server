@@ -1,0 +1,27 @@
+{
+  "root": [
+    "./src/app.ts",
+    "./src/server.ts",
+    "./src/@types/types.d.ts",
+    "./src/config/db.ts",
+    "./src/middlewares/auth.ts",
+    "./src/middlewares/try_catch.ts",
+    "./src/middlewares/validate.ts",
+    "./src/modules/auth/auth.controller.ts",
+    "./src/modules/auth/auth.routes.ts",
+    "./src/modules/auth/auth.schema.ts",
+    "./src/modules/auth/auth.service.ts",
+    "./src/modules/task/task.controller.ts",
+    "./src/modules/task/task.model.ts",
+    "./src/modules/task/task.routes.ts",
+    "./src/modules/task/task.schema.ts",
+    "./src/modules/task/task.service.ts",
+    "./src/modules/task/types.ts",
+    "./src/modules/user/types.ts",
+    "./src/modules/user/user.controller.ts",
+    "./src/modules/user/user.model.ts",
+    "./src/modules/user/user.service.ts",
+    "./src/utils/generate_token.ts"
+  ],
+  "version": "5.7.2"
+}

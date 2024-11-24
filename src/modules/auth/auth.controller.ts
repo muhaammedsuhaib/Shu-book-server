@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import User from "../user/user.model";
-import generate_token from "../../utils/generate_token";
+import * as authService from "./auth.service";
 
 export const register_user = async (
   req: Request,
@@ -8,22 +7,15 @@ export const register_user = async (
 ): Promise<Response> => {
   const { username, email, password } = req.body;
 
-  if (!username || !email || !password) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-
-  const userExists = await User.findOne({ email });
-  if (userExists) {
-    return res.status(400).json({ message: "User already exists" });
-  }
-
-  const user = await User.create({ username, email, password });
-  if (user) {
+  try {
+    const user = await authService.register_user(username, email, password);
     return res
       .status(201)
-      .json({ message: "registration successfully", data: user });
-  } else {
-    return res.status(400).json({ message: "Invalid user data" });
+      .json({ message: "Registration successful", data: user });
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "An unknown error occurred";
+    return res.status(400).json({ message });
   }
 };
 
@@ -33,14 +25,14 @@ export const login_user = async (
 ): Promise<Response> => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
-
-  if (user && (await user.matchPassword(password))) {
-    const token = generate_token(user._id);
+  try {
+    const { user, token } = await authService.login_user(email, password);
     return res
-      .status(201)
-      .json({ message: "Login successfully", data: { user, token } });
-  } else {
-    return res.status(401).json({ message: "Invalid email or password" });
+      .status(200)
+      .json({ message: "Login successful", data: { user, token } });
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "An unknown error occurred";
+    return res.status(400).json({ message });
   }
 };
