@@ -41,6 +41,7 @@ const dotenv = __importStar(require("dotenv"));
 const db_1 = __importDefault(require("./config/db"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
+const auth_routes_1 = __importDefault(require("./modules/auth/auth.routes"));
 dotenv.config();
 const app = (0, express_1.default)();
 app.use((0, cookie_parser_1.default)());
@@ -64,6 +65,7 @@ const corsOptions = {
 app.use((0, cors_1.default)(corsOptions));
 (0, db_1.default)();
 app.use(express_1.default.json());
+app.use("/api", auth_routes_1.default);
 app.get("/", (req, res) => {
     res.send("Welcome to ToDoListify application!");
 });

@@ -3,7 +3,7 @@ import * as dotenv from "dotenv";
 import connectDB from "./config/db";
 import cookieParser from "cookie-parser";
 import cors, { CorsOptions } from "cors";
-
+import authRoutes from './modules/auth/auth.routes';
 dotenv.config();
 
 const app = express();
@@ -37,6 +37,7 @@ connectDB();
 
 app.use(express.json());
 
+app.use("/api", authRoutes);
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome to ToDoListify application!");
 });
