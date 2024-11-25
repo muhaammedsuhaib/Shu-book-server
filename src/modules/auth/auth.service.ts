@@ -15,7 +15,8 @@ export const register_user = async (
   if (!user) {
     throw new Error("Invalid user data");
   }
-  return user;
+  const token = generate_token(user._id);
+  return { user, token };
 };
 
 

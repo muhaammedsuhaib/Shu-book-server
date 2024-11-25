@@ -38,10 +38,10 @@ const authService = __importStar(require("./auth.service"));
 const register_user = async (req, res) => {
     const { username, email, password } = req.body;
     try {
-        const user = await authService.register_user(username, email, password);
+        const { user, token } = await authService.register_user(username, email, password);
         return res
             .status(201)
-            .json({ message: "Registration successful", data: user });
+            .json({ message: "Registration successful", data: { user, token } });
     }
     catch (error) {
         const message = error instanceof Error ? error.message : "An unknown error occurred";
