@@ -15,8 +15,9 @@ const register_user = async (username, email, password) => {
     if (!user) {
         throw new Error("Invalid user data");
     }
+    const userdata = await user_model_1.default.findById(user._id).select("-password");
     const token = (0, generate_token_1.default)(user._id);
-    return { user, token };
+    return { user: userdata, token };
 };
 exports.register_user = register_user;
 const login_user = async (email, password) => {
@@ -24,7 +25,8 @@ const login_user = async (email, password) => {
     if (!user || !(await user.matchPassword(password))) {
         throw new Error("Invalid email or password");
     }
+    const userdata = await user_model_1.default.findById(user._id).select("-password");
     const token = (0, generate_token_1.default)(user._id);
-    return { user, token };
+    return { user: userdata, token };
 };
 exports.login_user = login_user;

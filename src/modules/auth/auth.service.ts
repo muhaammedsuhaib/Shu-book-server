@@ -10,23 +10,22 @@ export const register_user = async (
   if (userExists) {
     throw new Error("User already exists");
   }
-
   const user = await User.create({ username, email, password });
   if (!user) {
     throw new Error("Invalid user data");
   }
+  const userdata = await User.findById(user._id).select("-password");
   const token = generate_token(user._id);
-  return { user, token };
+  return { user: userdata, token };
 };
 
-
 export const login_user = async (email: string, password: string) => {
-    const user = await User.findOne({ email });
-    
-    if (!user || !(await user.matchPassword(password))) {
-      throw new Error("Invalid email or password");
-    }
-  
-    const token = generate_token(user._id);
-    return { user, token };
-  };
+  const user = await User.findOne({ email });
+
+  if (!user || !(await user.matchPassword(password))) {
+    throw new Error("Invalid email or password");
+  }
+  const userdata = await User.findById(user._id).select("-password");
+  const token = generate_token(user._id);
+  return { user: userdata, token };
+};
