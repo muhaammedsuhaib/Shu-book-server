@@ -9,6 +9,7 @@ const userSchema = new mongoose_1.default.Schema({
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    tasks: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Task" }],
 }, { timestamps: true });
 userSchema.methods.matchPassword = async function (enteredPassword) {
     return bcryptjs_1.default.compare(enteredPassword, this.password);

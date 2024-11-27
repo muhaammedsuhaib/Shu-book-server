@@ -1,10 +1,17 @@
-import { Document } from "mongoose";
-import { IUser } from "../user/types";
+import mongoose, { Document } from "mongoose";
 
 export interface ITask extends Document {
-    title: string;
-    description?: string;
-    status: 'To Do' | 'In Progress' | 'Completed';
-    dueDate: Date;
-    user: IUser['_id'];  
-  }
+  task_name: string;
+  description: string;
+  reminddate: Date;
+  start_date: Date;
+  priority: "High" | "Medium" | "Low";
+  status: "Pending" | "In Progress" | "Completed";
+  task_type: string;
+  notes?: string;
+  completion_date?: Date;
+  author: mongoose.Schema.Types.ObjectId;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+}
