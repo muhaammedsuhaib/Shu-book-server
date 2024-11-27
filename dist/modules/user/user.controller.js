@@ -41,7 +41,7 @@ const profile_user = async (req, res) => {
         const user = await userServices.find_user_by_id(userId);
         return res
             .status(201)
-            .json({ message: "User profile retrieved successfully", data: { user } });
+            .json({ message: "User profile retrieved successfully", data: user });
     }
     catch (error) {
         const message = error instanceof Error ? error.message : "An unknown error occurred";

@@ -10,17 +10,9 @@ export const create_task_schema = Joi.object({
 
   description: Joi.string().min(10).optional(),
 
-  reminddate: Joi.date().min(new Date()).required().messages({
-    "date.base": `"reminddate" should be a valid date`,
-    "date.min": `"reminddate" cannot be in the past`,
-    "any.required": `"reminddate" is a required field`,
-  }),
+  reminddate: Joi.date().min(new Date()).allow(null).allow("").optional(),
 
-  start_date: Joi.date().max(new Date()).required().messages({
-    "date.base": `"start_date" should be a valid date`,
-    "date.max": `"start_date" cannot be in the future`,
-    "any.required": `"start_date" is a required field`,
-  }),
+  start_date: Joi.date().allow(null).allow("").optional(),
 
   priority: Joi.string().valid("High", "Medium", "Low").required().messages({
     "string.base": `"priority" should be a type of 'text'`,
@@ -46,5 +38,5 @@ export const create_task_schema = Joi.object({
 
   notes: Joi.string().allow("").optional(),
 
-  completion_date: Joi.date().min(new Date()).allow(null).allow("").optional(),
+  completion_date: Joi.date().allow(null).allow("").optional(),
 }).required();

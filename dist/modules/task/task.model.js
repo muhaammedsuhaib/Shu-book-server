@@ -17,13 +17,12 @@ const taskSchema = new mongoose_1.default.Schema({
     },
     reminddate: {
         type: Date,
-        required: [true, "Reminder date is required"],
         min: [new Date(), "Reminder date cannot be in the past"],
+        default: null,
     },
     start_date: {
         type: Date,
-        required: [true, "Start date is required"],
-        max: [new Date(), "Start date cannot be in the future"],
+        default: null,
     },
     priority: {
         type: String,
@@ -45,7 +44,6 @@ const taskSchema = new mongoose_1.default.Schema({
     },
     completion_date: {
         type: Date,
-        min: [new Date(), "Completion date cannot be in the past"],
         default: null,
     },
     author: {

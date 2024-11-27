@@ -13,16 +13,8 @@ exports.create_task_schema = joi_1.default.object({
         "any.required": `"task_name" is a required field`,
     }),
     description: joi_1.default.string().min(10).optional(),
-    reminddate: joi_1.default.date().min(new Date()).required().messages({
-        "date.base": `"reminddate" should be a valid date`,
-        "date.min": `"reminddate" cannot be in the past`,
-        "any.required": `"reminddate" is a required field`,
-    }),
-    start_date: joi_1.default.date().max(new Date()).required().messages({
-        "date.base": `"start_date" should be a valid date`,
-        "date.max": `"start_date" cannot be in the future`,
-        "any.required": `"start_date" is a required field`,
-    }),
+    reminddate: joi_1.default.date().min(new Date()).allow(null).allow("").optional(),
+    start_date: joi_1.default.date().allow(null).allow("").optional(),
     priority: joi_1.default.string().valid("High", "Medium", "Low").required().messages({
         "string.base": `"priority" should be a type of 'text'`,
         "any.only": `"priority" must be one of ['High', 'Medium', 'Low']`,
@@ -43,5 +35,5 @@ exports.create_task_schema = joi_1.default.object({
         "any.required": `"task_type" is a required field`,
     }),
     notes: joi_1.default.string().allow("").optional(),
-    completion_date: joi_1.default.date().min(new Date()).allow(null).allow("").optional(),
+    completion_date: joi_1.default.date().allow(null).allow("").optional(),
 }).required();

@@ -5,13 +5,18 @@ import { Types } from "mongoose";
 import User from "../user/user.model";
 
 export const get_tasks = async (req: Request, res: Response): Promise<any> => {
-  const tasks = await Task.find({ author: req.user?._id });
-  if (!tasks) {
-    return res.status(404).json({ message: "Task not found" });
+  const user = await User.findById(req.user?._id).populate({
+    path: "tasks",
+    options: { sort: { created_at: -1 } },
+  });
+
+  if (!user?.tasks) {
+    return res.status(404).json({ message: "No tasks found for the user" });
   }
+
   return res
     .status(200)
-    .json({ message: "Tasks retrived successfully", date: tasks });
+    .json({ message: "Tasks retrieved successfully", data: user?.tasks });
 };
 
 export const create_task = async (

@@ -8,13 +8,16 @@ const task_model_1 = __importDefault(require("./task.model"));
 const mongoose_1 = require("mongoose");
 const user_model_1 = __importDefault(require("../user/user.model"));
 const get_tasks = async (req, res) => {
-    const tasks = await task_model_1.default.find({ author: req.user?._id });
-    if (!tasks) {
-        return res.status(404).json({ message: "Task not found" });
+    const user = await user_model_1.default.findById(req.user?._id).populate({
+        path: "tasks",
+        options: { sort: { created_at: -1 } },
+    });
+    if (!user?.tasks) {
+        return res.status(404).json({ message: "No tasks found for the user" });
     }
     return res
         .status(200)
-        .json({ message: "Tasks retrived successfully", date: tasks });
+        .json({ message: "Tasks retrieved successfully", data: user?.tasks });
 };
 exports.get_tasks = get_tasks;
 const create_task = async (req, res) => {

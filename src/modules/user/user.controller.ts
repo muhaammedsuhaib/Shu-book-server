@@ -11,7 +11,7 @@ export const profile_user = async (
 
     return res
       .status(201)
-      .json({ message: "User profile retrieved successfully", data: { user } });
+      .json({ message: "User profile retrieved successfully", data: user });
   } catch (error: unknown) {
     const message =
       error instanceof Error ? error.message : "An unknown error occurred";
