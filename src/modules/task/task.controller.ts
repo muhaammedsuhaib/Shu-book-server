@@ -5,10 +5,12 @@ import { Types } from "mongoose";
 import User from "../user/user.model";
 
 export const get_tasks = async (req: Request, res: Response): Promise<any> => {
-  const user = await User.findById(req.user?._id).populate({
-    path: "tasks",
-    options: { sort: { created_at: -1 } },
-  });
+  const user = await User.findById(req?.user?._id)
+    .populate({
+      path: "tasks",
+      options: { sort: { created_at: -1 } },
+    })
+    .select("-password");
 
   if (!user?.tasks) {
     return res.status(404).json({ message: "No tasks found for the user" });

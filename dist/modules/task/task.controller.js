@@ -8,10 +8,12 @@ const task_model_1 = __importDefault(require("./task.model"));
 const mongoose_1 = require("mongoose");
 const user_model_1 = __importDefault(require("../user/user.model"));
 const get_tasks = async (req, res) => {
-    const user = await user_model_1.default.findById(req.user?._id).populate({
+    const user = await user_model_1.default.findById(req?.user?._id)
+        .populate({
         path: "tasks",
         options: { sort: { created_at: -1 } },
-    });
+    })
+        .select("-password");
     if (!user?.tasks) {
         return res.status(404).json({ message: "No tasks found for the user" });
     }
